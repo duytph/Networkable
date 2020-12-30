@@ -12,6 +12,7 @@ public protocol MultipartFormDataBuildable {}
 /// where the value of thatparameter is the original field name in the form.
 public struct MultipartFormDataBuilder: MultipartFormDataBuildable {
     
+    /// The possible errors maybe  throw during constructing the multipart form data.
     public enum FormError: Error {
         
         case invalidFileURL(URL)
