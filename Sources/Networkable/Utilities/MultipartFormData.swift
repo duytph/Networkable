@@ -12,7 +12,7 @@ public protocol MultipartFormDataBuildable {}
 /// where the value of thatparameter is the original field name in the form.
 public struct MultipartFormDataBuilder: MultipartFormDataBuildable {
     
-    enum MultipartFormDataError: Error {
+    public enum FormError: Error {
         
         case invalidFileURL(URL)
         case unreachableFileURL(URL)
@@ -121,7 +121,7 @@ public struct MultipartFormDataBuilder: MultipartFormDataBuildable {
             !fileName.isEmpty,
             let mimeType = fileURL.mimeType()
         else {
-            throw MultipartFormDataError.invalidFileURL(fileURL)
+            throw FormError.invalidFileURL(fileURL)
         }
         
         try self.append(
@@ -148,25 +148,25 @@ public struct MultipartFormDataBuilder: MultipartFormDataBuildable {
             fileManager.fileExists(atPath: fileURL.path, isDirectory: &isDirectory),
             !isDirectory.boolValue
         else {
-            throw MultipartFormDataError.invalidFileURL(fileURL)
+            throw FormError.invalidFileURL(fileURL)
         }
         
         guard
             try fileURL.checkPromisedItemIsReachable()
         else {
-            throw MultipartFormDataError.unreachableFileURL(fileURL)
+            throw FormError.unreachableFileURL(fileURL)
         }
         
         guard
             let fileSize = try fileManager.attributesOfItem(atPath: fileURL.path)[.size] as? NSNumber
         else {
-            throw MultipartFormDataError.lostFileSize(fileURL)
+            throw FormError.lostFileSize(fileURL)
         }
         
         guard
             let inputStream = InputStream(url: fileURL)
         else {
-            throw MultipartFormDataError.failedInputStreeamInitialization(fileURL)
+            throw FormError.failedInputStreeamInitialization(fileURL)
         }
         
         let headers = self.headers(
