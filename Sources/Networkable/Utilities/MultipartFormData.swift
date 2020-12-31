@@ -70,7 +70,7 @@ public struct MultipartFormDataBuilder: MultipartFormDataBuildable {
     ///   - fileManager: The interface to the contents of the file system.
     ///   - streamBufferSize: The maximum number of bytes to read from a input stream in turn.
     public init(
-        boundary: String = UUID().uuidString.replacingOccurrences(of: "-", with: ""),
+        boundary: String = "Boundary-\(UUID().uuidString)",
         endOfLine: String = "\r\n",
         fileManager: FileManager = .default,
         streamBufferSize: Int = 1024) {
@@ -183,7 +183,7 @@ public struct MultipartFormDataBuilder: MultipartFormDataBuildable {
         parts.append(part)
     }
     
-    func build() throws -> Data {
+    public func build() throws -> Data {
         var data = Data()
         
         guard parts.isEmpty else { return data }
