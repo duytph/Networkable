@@ -186,7 +186,7 @@ public struct MultipartFormDataBuilder: MultipartFormDataBuildable {
     public func build() throws -> Data {
         var data = Data()
         
-        guard parts.isEmpty else { return data }
+        guard !parts.isEmpty else { return data }
         
         for part in parts {
             startingBoundaryData.map { data.append($0) }
