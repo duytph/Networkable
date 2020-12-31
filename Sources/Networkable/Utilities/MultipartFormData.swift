@@ -216,7 +216,7 @@ public struct MultipartFormDataBuilder: MultipartFormDataBuildable {
     ///   - fileName: Filename to associate with the file content in the `Content-Disposition` HTTP header.
     ///   - mimeType: MIME type to associate with the file content in the `Content-Type` HTTP header.`
     /// - Returns: A dictionary re-presents the HTTP headers.
-    func headers(
+    public func headers(
         name: String,
         fileName: String? = nil,
         mimeType: String? = nil) -> [String: String] {
@@ -231,7 +231,7 @@ public struct MultipartFormDataBuilder: MultipartFormDataBuildable {
         return headers
     }
     
-    func build(headers: [String: String]) -> Data? {
+    public func build(headers: [String: String]) -> Data? {
         let headers = headers
             .map { "\($0.key): \($0.value)" }
             .joined(separator: endOfLine)
@@ -240,7 +240,7 @@ public struct MultipartFormDataBuilder: MultipartFormDataBuildable {
         return data
     }
     
-    func build(inputStream: InputStream) throws -> Data {
+    public func build(inputStream: InputStream) throws -> Data {
         var data = Data()
         
         inputStream.open()
